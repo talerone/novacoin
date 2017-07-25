@@ -1,24 +1,24 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          novacoind
+# Provides:          talerd
 # Required-Start:    $network
 # Required-Stop:     $network
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: novacoind daemon startup script
-# Description:       novacoind daemon startup script
+# Short-Description: talerd daemon startup script
+# Description:       talerd daemon startup script
 ### END INIT INFO
 
 # Do NOT "set -e"
 
 # PATH should only include /usr/* if it runs after the mountnfs.sh script
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="NovaCoin Daemon"
-NAME=novacoind
-DAEMON=/opt/novacoin/$NAME
+DESC="taler Daemon"
+NAME=talerd
+DAEMON=/opt/taler/$NAME
 PIDFILE=/var/run/$NAME.pid
 SCRIPTNAME=/etc/init.d/$NAME
-CHUID=novacoin:novacoin
+CHUID=taler:taler
 DAEMON_ARGS="-daemon -pid=$PIDFILE"
 
 # Exit if the package is not installed

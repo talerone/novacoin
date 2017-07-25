@@ -1,5 +1,5 @@
 src/*.exe
-src/novacoind
+src/talerd
 src/build.h
 .*.swp
 *.*~*
@@ -8,11 +8,11 @@ src/build.h
 *.orig
 *.o
 *.patch
-.novacoin
+.taler
 #compilation and Qt preprocessor part
 *.qm
 Makefile
-novacoin-qt
+taler-qt
 #resources cpp
 qrc_*.cpp
 #qt creator

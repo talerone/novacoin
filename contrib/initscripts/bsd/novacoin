@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# PROVIDE: novacoin
+# PROVIDE: taler
 # REQUIRE: LOGIN
 # KEYWORD: shutdown
 
@@ -8,46 +8,46 @@
 # Add the following lines to /etc/rc.conf.local or /etc/rc.conf
 # to enable this service:
 #
-# novacoin_enable (bool): Set to NO by default. Set this variable to YES if you want to enable novacoin service.
-# novacoin_config (path): Set to /usr/local/etc/novacoin.conf by default.
-# novacoin_user:  The user account novacoin daemon runs as. It uses 'root' user by default.
-# novacoin_group: The group account novacoin daemon runs as. It uses 'wheel' group by default.
-# novacoin_datadir (str): Default to "/var/db/novacoin". Base data directory.
+# taler_enable (bool): Set to NO by default. Set this variable to YES if you want to enable taler service.
+# taler_config (path): Set to /usr/local/etc/taler.conf by default.
+# taler_user:  The user account taler daemon runs as. It uses 'root' user by default.
+# taler_group: The group account taler daemon runs as. It uses 'wheel' group by default.
+# taler_datadir (str): Default to "/var/db/taler". Base data directory.
 
 . /etc/rc.subr
 
-name=novacoin
-rcvar=novacoin_enable
+name=taler
+rcvar=taler_enable
 
-: ${novacoin_enable:=NO}
-: ${novacoin_config=/usr/local/etc/novacoin.conf}
-: ${novacoin_datadir=/var/db/novacoin}
-: ${novacoin_user="root"}
-: ${novacoin_group="wheel"}
+: ${taler_enable:=NO}
+: ${taler_config=/usr/local/etc/taler.conf}
+: ${taler_datadir=/var/db/taler}
+: ${taler_user="root"}
+: ${taler_group="wheel"}
 
-required_files=${novacoin_config}
-command=/usr/local/bin/novacoind
-novacoin_chdir=${novacoin_datadir}
-pidfile="${novacoin_datadir}/novacoind.pid"
-stop_cmd=novacoin_stop
-command_args="-conf=${novacoin_config} -datadir=${novacoin_datadir} -daemon -pid=${pidfile}"
+required_files=${taler_config}
+command=/usr/local/bin/talerd
+taler_chdir=${taler_datadir}
+pidfile="${taler_datadir}/talerd.pid"
+stop_cmd=taler_stop
+command_args="-conf=${taler_config} -datadir=${taler_datadir} -daemon -pid=${pidfile}"
 start_precmd="${name}_prestart"
 
-novacoin_create_datadir()
+taler_create_datadir()
 {
 	echo "Creating data directory"
-	eval mkdir -p ${novacoin_datadir}
-	[ $? -eq 0 ] && chown -R ${novacoin_user}:${novacoin_group} ${novacoin_datadir}
+	eval mkdir -p ${taler_datadir}
+	[ $? -eq 0 ] && chown -R ${taler_user}:${taler_group} ${taler_datadir}
 }
 
-novacoin_prestart()
+taler_prestart()
 {
-	if [ ! -d "${novacoin_datadir}/." ]; then
-		novacoin_create_datadir || return 1
+	if [ ! -d "${taler_datadir}/." ]; then
+		taler_create_datadir || return 1
 	fi
 }
 
-novacoin_requirepidfile()
+taler_requirepidfile()
 {
 	if [ ! "0`check_pidfile ${pidfile} ${command}`" -gt 1 ]; then
 		echo "${name} not running? (check $pidfile)."
@@ -55,12 +55,12 @@ novacoin_requirepidfile()
 	fi
 }
 
-novacoin_stop()
+taler_stop()
 {
-    novacoin_requirepidfile
+    taler_requirepidfile
 
 	echo "Stopping ${name}."
-	eval ${command} -conf=${novacoin_config} -datadir=${novacoin_datadir} stop
+	eval ${command} -conf=${taler_config} -datadir=${taler_datadir} stop
 	wait_for_pids ${rc_pid}
 }
 
